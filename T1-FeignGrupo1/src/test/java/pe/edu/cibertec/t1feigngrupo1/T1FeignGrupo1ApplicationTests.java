@@ -1,14 +1,13 @@
-package pe.cibertec.t1feigngrupo1;
+package pe.edu.cibertec.t1feigngrupo1;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootApplication
-@EnableFeignClients
-public class T1FeignGrupo1Application {
+@SpringBootTest
+class T1FeignGrupo1ApplicationTests {
 
-    public static void main(String[] args) {
-        SpringApplication.run(T1FeignGrupo1Application.class, args);
+    @Test
+    void contextLoads() {
     }
+
 }
