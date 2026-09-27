@@ -1,6 +1,7 @@
 package pe.cibertec.appgrupo1consumidor.consumer;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import pe.cibertec.appgrupo1consumidor.config.RabbitMQConfig;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class FibonacciConsumer {
@@ -20,10 +22,11 @@ public class FibonacciConsumer {
     @RabbitListener(queues = RabbitMQConfig.QUEUE)
     public void receiveMessage(String cadenaNumeros) {
 
-        System.out.println("Mensaje recibido de RabbitMQ: " + cadenaNumeros);
+        log.info("Mensaje recibido de RabbitMQ: {}", cadenaNumeros);
 
         Integer[] integerArray = Stream.of(cadenaNumeros.split(";"))
                 .map(String::trim)
+                .filter(s -> !s.isEmpty())
                 .map(Integer::parseInt)
                 .toArray(Integer[]::new);
 
@@ -36,11 +39,12 @@ public class FibonacciConsumer {
         }
 
         for (Integer pos : positions) {
-            System.out.println("fibonacci(" + pos + ") = " + fibonacciService.fibonacci(pos));
+            log.info("fibonacci({}) = {}", pos, fibonacciService.fibonacci(pos));
         }
 
         List<Long> resultados = fibonacciService.calculateSequence(positions);
-        System.out.println("Resultado: " + resultados);
-        System.out.println("Procesado, fecha y hora " + LocalDateTime.now());
+        log.info("Resultado: {}", resultados);
+        log.info("Procesado, fecha y hora {}", LocalDateTime.now());
+        log.info("----------------------------------------");
     }
 }
